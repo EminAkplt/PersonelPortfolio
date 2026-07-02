@@ -1,0 +1,155 @@
+@page
+@using Portfolio.Web.Common
+@using Portfolio.Web.Domain
+@model IndexModel
+@{
+    var heroName = Model.ContentOf(SiteContentKeys.HeroName, "Emin");
+    var tagline = Model.ContentOf(SiteContentKeys.HeroTagline);
+    var email = Model.ContentOf(SiteContentKeys.ContactEmail);
+    ViewData["Title"] = $"{heroName} — Yazılım Mühendisi";
+    ViewData["Description"] = tagline;
+}
+
+@* İmza öğe: açılış sekansı. JS yoksa veya hareket azaltılmışsa hiç görünmez (hidden). *@
+<div id="acilisSekansi" class="boot-overlay" hidden>
+    <div class="boot-terminal mono" aria-hidden="true"></div>
+    <button type="button" class="boot-skip mono" id="acilisGec">geç ↵</button>
+</div>
+
+<section class="hero container">
+    <p class="hero-eyebrow mono" aria-hidden="true">// merhaba</p>
+    <h1 class="hero-name">@heroName<span class="hero-cursor" aria-hidden="true">_</span></h1>
+    <p class="hero-tagline">@tagline</p>
+
+    <div class="hero-status">
+        <span id="durumRozeti" class="status-badge mono" data-endpoint="/api/health">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-text">Sistemler çalışıyor</span>
+        </span>
+    </div>
+</section>
+
+<section id="projeler" class="section container" aria-labelledby="projeler-baslik">
+    <div class="section-head reveal">
+        <span class="section-no mono" aria-hidden="true">01</span>
+        <h2 id="projeler-baslik">Seçilmiş Projeler</h2>
+        <p class="section-sub">Her proje bir hikâye: ortada bir sorun vardı, bir yol seçtim, bir sonuç çıktı.</p>
+    </div>
+
+    <div class="project-list">
+        @foreach (var (project, index) in Model.Projects.Select((p, i) => (p, i)))
+        {
+            <article class="project-card reveal" aria-labelledby="proje-@project.Slug">
+                <header class="project-card-head">
+                    <span class="project-no mono" aria-hidden="true">@((index + 1).ToString("00"))</span>
+                    <h3 id="proje-@project.Slug">
+                        <a class="project-link" href="/proje/@project.Slug">@project.Title</a>
+                    </h3>
+                </header>
+
+                <p class="project-summary">@project.Summary</p>
+
+                <ul class="tech-list" aria-label="Kullanılan teknolojiler">
+                    @foreach (var (tech, ti) in project.TechStack.Select((t, i) => (t, i)))
+                    {
+                        var tipId = $"tip-{project.Slug}-{ti}";
+                        <li>
+                            <span class="tech-badge mono" tabindex="0" aria-describedby="@tipId">
+                                @tech
+                                <span class="tip" role="tooltip" id="@tipId">@TechGlossary.Describe(tech)</span>
+                            </span>
+                        </li>
+                    }
+                </ul>
+
+                <a class="project-more" href="/proje/@project.Slug">
+                    Hikâyenin tamamı<span aria-hidden="true"> →</span>
+                    <span class="visually-hidden">: @project.Title</span>
+                </a>
+            </article>
+        }
+    </div>
+</section>
+
+<section id="nasil-calisirim" class="section container" aria-labelledby="ilke-baslik">
+    <div class="section-head reveal">
+        <span class="section-no mono" aria-hidden="true">02</span>
+        <h2 id="ilke-baslik">Nasıl Çalışırım</h2>
+        <p class="section-sub">Teknoloji listesi yerine üç ilke — çünkü araçlar değişir, yaklaşım kalır.</p>
+    </div>
+
+    <div class="principles">
+        @for (var i = 1; i <= 3; i++)
+        {
+            <article class="principle-card reveal">
+                <span class="principle-no mono" aria-hidden="true">@($"{i:00}")</span>
+                <h3>@Model.ContentOf($"principle.{i}.title")</h3>
+                <p>@Model.ContentOf($"principle.{i}.text")</p>
+            </article>
+        }
+    </div>
+</section>
+
+@if (Model.Now is not null)
+{
+    <section id="su-an" class="section container" aria-labelledby="suan-baslik">
+        <div class="now-widget reveal">
+            <h2 id="suan-baslik" class="now-label mono">
+                <span class="now-dot" aria-hidden="true"></span>Şu an
+            </h2>
+            <p class="now-text">
+                @Model.Now.StatusText
+                <span aria-hidden="true">@IndexModel.MoodEmoji(Model.Now.Mood)</span>
+            </p>
+            <p class="now-updated mono">Son güncelleme: <time datetime="@Model.Now.UpdatedAt.ToString("o")">@Model.Now.UpdatedAt.ToLocalTime().ToString("dd.MM.yyyy")</time></p>
+        </div>
+    </section>
+}
+
+<section id="iletisim" class="section container" aria-labelledby="iletisim-baslik">
+    <div class="section-head reveal">
+        <span class="section-no mono" aria-hidden="true">03</span>
+        <h2 id="iletisim-baslik">Hakkımda &amp; İletişim</h2>
+    </div>
+
+    <div class="about-contact">
+        <div class="about reveal">
+            <p class="about-text">@Model.ContentOf(SiteContentKeys.AboutText)</p>
+            @if (!string.IsNullOrEmpty(email))
+            {
+                <p class="about-email">
+                    Doğrudan yazmak isterseniz:
+                    <a class="mono" href="mailto:@email">@email</a>
+                </p>
+            }
+        </div>
+
+        <form id="iletisimFormu" class="contact-form reveal" action="/api/contact" method="post" novalidate>
+            <div class="form-field">
+                <label for="ad">Adınız</label>
+                <input id="ad" name="name" type="text" autocomplete="name" required minlength="2" maxlength="150" />
+            </div>
+            <div class="form-field">
+                <label for="eposta">E-posta</label>
+                <input id="eposta" name="email" type="email" autocomplete="email" required maxlength="320" />
+            </div>
+            <div class="form-field">
+                <label for="mesaj">Mesajınız</label>
+                <textarea id="mesaj" name="message" rows="5" required minlength="10" maxlength="4000"></textarea>
+            </div>
+
+            @* Honeypot: insanlar görmez, botlar doldurur. *@
+            <div class="hp-field" aria-hidden="true">
+                <label for="website">Web siteniz</label>
+                <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <button type="submit" class="btn-primary">Mesajı gönder</button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+            <noscript>
+                <p class="form-status">Form için JavaScript gerekli. Dilerseniz doğrudan
+                    <a href="mailto:@email">@email</a> adresine yazabilirsiniz.</p>
+            </noscript>
+        </form>
+    </div>
+</section>
