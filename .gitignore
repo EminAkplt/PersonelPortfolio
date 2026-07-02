@@ -1,0 +1,18 @@
+# Derleme çıktıları
+bin/
+obj/
+publish/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# İşletim sistemi
+Thumbs.db
+.DS_Store
+
+# Yerel gizli ayarlar
+appsettings.*.local.json
+*.pfx
