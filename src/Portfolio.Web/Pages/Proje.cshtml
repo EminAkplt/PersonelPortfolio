@@ -6,6 +6,7 @@
     ViewData["Title"] = $"{Model.Project.Title} — Emin";
     ViewData["Description"] = Model.Project.Summary;
     ViewData["OgType"] = "article";
+    ViewData["Canonical"] = $"/proje/{Model.Project.Slug}";
 
     var jsonLd = JsonSerializer.Serialize(new Dictionary<string, object?>
     {

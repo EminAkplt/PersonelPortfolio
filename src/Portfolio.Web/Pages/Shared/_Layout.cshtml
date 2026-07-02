@@ -14,8 +14,19 @@
     <meta name="twitter:title" content="@(ViewData["Title"] ?? "Emin — Yazılım Mühendisi")" />
     <meta name="twitter:description" content="@(ViewData["Description"] ?? "Karmaşık problemleri, insanların severek kullandığı basit yazılımlara dönüştüren yazılım mühendisi.")" />
 
+    @if (ViewData["Canonical"] is string canonicalPath)
+    {
+        var canonicalUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{canonicalPath}";
+        <link rel="canonical" href="@canonicalUrl" />
+        <meta property="og:url" content="@canonicalUrl" />
+    }
+
+    <link rel="preload" href="~/fonts/sora-latin-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="~/fonts/inter-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="~/fonts/inter-latin-ext-400.woff2" as="font" type="font/woff2" crossorigin />
+
     @* Tema, CSS'ten önce belirlenir; açılışta yanlış tema parlaması (FOUC) yaşanmaz. *@
-    <script>
+    <script nonce="@Context.GetNonce()">
         (function () {
             try {
                 var fromUrl = new URLSearchParams(location.search).get("tema");

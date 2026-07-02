@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Web.Common.Caching;
+using Portfolio.Web.Common.Http;
 using Portfolio.Web.Common.Security;
 using Portfolio.Web.Data;
 using Portfolio.Web.Features;
+using Portfolio.Web.Features.Seo;
 
 // Üretim için şifre hash'i üretme komutu:
 //   dotnet run --project src/Portfolio.Web -- hash-password "şifreniz"
@@ -43,6 +46,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IAppCache, MemoryAppCache>();
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
+
 builder.Services.AddFeatures();
 
 var app = builder.Build();
@@ -57,6 +67,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseSecurityHeaders();
+app.UseResponseCompression();
+
 app.UseRouting();
 
 app.UseRateLimiter();
@@ -69,5 +82,6 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.MapFeatureEndpoints();
+app.MapSitemap();
 
 app.Run();
