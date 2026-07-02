@@ -1,0 +1,59 @@
+@page "/admin/icerik"
+@model Portfolio.Web.Pages.Admin.Content.IndexModel
+@{
+    ViewData["Title"] = "Site İçeriği";
+}
+
+<h1>Site İçeriği</h1>
+<p class="admin-hint">Bu metinler sitenin ilgili bölümlerinde anında görünür.</p>
+
+@if (TempData["Message"] is string msg)
+{
+    <p class="admin-notice" role="status">@msg</p>
+}
+@if (Model.ErrorMessage is not null)
+{
+    <p class="admin-alert" role="alert">@Model.ErrorMessage</p>
+}
+
+<form method="post" class="admin-form admin-form-wide">
+    <div class="admin-field">
+        <label for="heroname">İsim (hero'da büyük görünen)</label>
+        <input id="heroname" name="Values[hero.name]" value="@Model.Values.GetValueOrDefault("hero.name")" />
+    </div>
+    <div class="admin-field">
+        <label for="hero">Hero cümlesi (pozisyonlama)</label>
+        <textarea id="hero" name="Values[hero.tagline]" rows="2">@Model.Values.GetValueOrDefault("hero.tagline")</textarea>
+    </div>
+
+    <div class="admin-field">
+        <label for="about">Hakkımda metni</label>
+        <textarea id="about" name="Values[about.text]" rows="6">@Model.Values.GetValueOrDefault("about.text")</textarea>
+    </div>
+
+    <fieldset class="admin-fieldset">
+        <legend>Çalışma ilkeleri</legend>
+        @for (var i = 1; i <= 3; i++)
+        {
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="p@(i)t">@i. ilke başlığı</label>
+                    <input id="p@(i)t" name="Values[principle.@(i).title]" value="@Model.Values.GetValueOrDefault($"principle.{i}.title")" />
+                </div>
+                <div class="admin-field admin-field-grow">
+                    <label for="p@(i)x">@i. ilke açıklaması</label>
+                    <textarea id="p@(i)x" name="Values[principle.@(i).text]" rows="2">@Model.Values.GetValueOrDefault($"principle.{i}.text")</textarea>
+                </div>
+            </div>
+        }
+    </fieldset>
+
+    <div class="admin-field">
+        <label for="email">İletişim e-postası</label>
+        <input id="email" name="Values[contact.email]" type="email" value="@Model.Values.GetValueOrDefault("contact.email")" />
+    </div>
+
+    <div class="admin-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">Kaydet</button>
+    </div>
+</form>

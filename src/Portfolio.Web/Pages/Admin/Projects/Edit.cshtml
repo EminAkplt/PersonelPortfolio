@@ -1,0 +1,82 @@
+@page "/admin/projeler/duzenle/{id:int?}"
+@model Portfolio.Web.Pages.Admin.Projects.EditModel
+@{
+    ViewData["Title"] = Model.IsNew ? "Yeni Proje" : "Projeyi Düzenle";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.ErrorMessage is not null)
+{
+    <p class="admin-alert" role="alert">@Model.ErrorMessage</p>
+}
+
+<form method="post" class="admin-form admin-form-wide">
+    <div class="admin-field-row">
+        <div class="admin-field">
+            <label asp-for="Form.Title">Başlık</label>
+            <input asp-for="Form.Title" required maxlength="200" />
+        </div>
+        <div class="admin-field">
+            <label asp-for="Form.Slug">Slug (adres)</label>
+            <input asp-for="Form.Slug" required maxlength="120" pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                   placeholder="ornek-proje-adi" />
+        </div>
+    </div>
+
+    <div class="admin-field">
+        <label asp-for="Form.Summary">Özet (tek cümle, insan dilinde)</label>
+        <input asp-for="Form.Summary" required maxlength="400" />
+    </div>
+
+    <div class="admin-field">
+        <label asp-for="Form.Problem">Sorun</label>
+        <textarea asp-for="Form.Problem" rows="4" required></textarea>
+    </div>
+    <div class="admin-field">
+        <label asp-for="Form.Approach">Yaklaşım</label>
+        <textarea asp-for="Form.Approach" rows="4" required></textarea>
+    </div>
+    <div class="admin-field">
+        <label asp-for="Form.Outcome">Sonuç</label>
+        <textarea asp-for="Form.Outcome" rows="4" required></textarea>
+    </div>
+
+    <div class="admin-field">
+        <label asp-for="Form.TechStackCsv">Teknolojiler (virgülle ayırın)</label>
+        <input asp-for="Form.TechStackCsv" placeholder="ASP.NET Core, PostgreSQL, Vanilla JS" />
+    </div>
+
+    <div class="admin-field-row">
+        <div class="admin-field">
+            <label asp-for="Form.CoverImageUrl">Kapak görseli URL</label>
+            <input asp-for="Form.CoverImageUrl" maxlength="500" />
+        </div>
+        <div class="admin-field">
+            <label asp-for="Form.DemoUrl">Demo URL</label>
+            <input asp-for="Form.DemoUrl" maxlength="500" />
+        </div>
+        <div class="admin-field">
+            <label asp-for="Form.RepoUrl">Repo URL</label>
+            <input asp-for="Form.RepoUrl" maxlength="500" />
+        </div>
+    </div>
+
+    <div class="admin-field-row">
+        <div class="admin-field">
+            <label asp-for="Form.DisplayOrder">Sıra</label>
+            <input asp-for="Form.DisplayOrder" type="number" min="0" />
+        </div>
+        <div class="admin-field admin-field-check">
+            <label>
+                <input asp-for="Form.IsPublished" type="checkbox" />
+                Yayında
+            </label>
+        </div>
+    </div>
+
+    <div class="admin-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">Kaydet</button>
+        <a class="admin-btn" href="/admin/projeler">Vazgeç</a>
+    </div>
+</form>

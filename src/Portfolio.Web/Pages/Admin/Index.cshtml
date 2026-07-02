@@ -1,0 +1,47 @@
+@page "/admin"
+@model Portfolio.Web.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Özet";
+}
+
+<h1>Özet</h1>
+
+<div class="admin-stats">
+    <div class="admin-stat">
+        <span class="admin-stat-value">@Model.Dashboard.TotalViewsLast30Days</span>
+        <span class="admin-stat-label">görüntüleme (30 gün)</span>
+    </div>
+    <a class="admin-stat" href="/admin/mesajlar">
+        <span class="admin-stat-value">@Model.Dashboard.UnreadMessageCount</span>
+        <span class="admin-stat-label">okunmamış mesaj</span>
+    </a>
+    <a class="admin-stat" href="/admin/projeler">
+        <span class="admin-stat-value">@Model.Dashboard.PublishedProjectCount</span>
+        <span class="admin-stat-label">yayında proje</span>
+    </a>
+</div>
+
+<section aria-label="Son 30 gün sayfa görüntülemeleri">
+    <h2>Son 30 gün</h2>
+    @{
+        var max = Math.Max(1, Model.Dashboard.Last30Days.Max(d => d.Count));
+        var barWidth = 100.0 / Model.Dashboard.Last30Days.Count;
+    }
+    <svg class="admin-chart" viewBox="0 0 100 40" preserveAspectRatio="none" role="img"
+         aria-label="Günlük sayfa görüntüleme grafiği; son 30 günde toplam @Model.Dashboard.TotalViewsLast30Days görüntüleme">
+        @for (var i = 0; i < Model.Dashboard.Last30Days.Count; i++)
+        {
+            var day = Model.Dashboard.Last30Days[i];
+            var h = day.Count == 0 ? 0.5 : 38.0 * day.Count / max;
+            <rect x="@((i * barWidth + 0.3).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))"
+                  y="@((39 - h).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))"
+                  width="@((barWidth - 0.6).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))"
+                  height="@(h.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))">
+                <title>@day.Day.ToString("dd.MM"): @day.Count görüntüleme</title>
+            </rect>
+        }
+    </svg>
+    <p class="admin-chart-range">
+        @Model.Dashboard.Last30Days.First().Day.ToString("dd MMMM") — @Model.Dashboard.Last30Days.Last().Day.ToString("dd MMMM")
+    </p>
+</section>

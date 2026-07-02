@@ -1,0 +1,46 @@
+@page "/admin/mesajlar"
+@model Portfolio.Web.Pages.Admin.Messages.IndexModel
+@{
+    ViewData["Title"] = "Mesajlar";
+}
+
+<h1>Gelen Mesajlar</h1>
+
+@if (TempData["Message"] is string msg)
+{
+    <p class="admin-notice" role="status">@msg</p>
+}
+
+@if (Model.Messages.Count == 0)
+{
+    <p>Henüz mesaj yok.</p>
+}
+else
+{
+    <ul class="admin-messages">
+        @foreach (var m in Model.Messages)
+        {
+            <li class="admin-message @(m.IsRead ? "is-read" : "is-unread")">
+                <div class="admin-message-head">
+                    <strong>@m.Name</strong>
+                    <a href="mailto:@m.Email">@m.Email</a>
+                    <time datetime="@m.CreatedAt.ToString("o")">@m.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</time>
+                    @if (!m.IsRead)
+                    {
+                        <span class="admin-pill is-on">Yeni</span>
+                    }
+                </div>
+                <p class="admin-message-body">@m.Message</p>
+                <div class="admin-message-actions">
+                    <form method="post" asp-page-handler="ToggleRead" asp-route-id="@m.Id" class="admin-inline-form">
+                        <button type="submit" class="admin-btn">@(m.IsRead ? "Okunmadı işaretle" : "Okundu işaretle")</button>
+                    </form>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@m.Id" class="admin-inline-form"
+                          onsubmit="return confirm('Bu mesaj silinsin mi?');">
+                        <button type="submit" class="admin-btn admin-btn-danger">Sil</button>
+                    </form>
+                </div>
+            </li>
+        }
+    </ul>
+}

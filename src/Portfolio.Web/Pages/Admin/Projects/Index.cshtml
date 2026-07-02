@@ -1,0 +1,58 @@
+@page "/admin/projeler"
+@model Portfolio.Web.Pages.Admin.Projects.IndexModel
+@{
+    ViewData["Title"] = "Projeler";
+}
+
+<div class="admin-page-head">
+    <h1>Projeler</h1>
+    <a class="admin-btn admin-btn-primary" href="/admin/projeler/duzenle">Yeni proje</a>
+</div>
+
+@if (TempData["Message"] is string msg)
+{
+    <p class="admin-notice" role="status">@msg</p>
+}
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th scope="col">Sıra</th>
+            <th scope="col">Başlık</th>
+            <th scope="col">Slug</th>
+            <th scope="col">Durum</th>
+            <th scope="col">Güncellenme</th>
+            <th scope="col"><span class="visually-hidden">İşlemler</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.Projects)
+        {
+            <tr>
+                <td>@p.DisplayOrder</td>
+                <td><a href="/admin/projeler/duzenle/@p.Id">@p.Title</a></td>
+                <td><code>@p.Slug</code></td>
+                <td>
+                    <form method="post" asp-page-handler="TogglePublish" asp-route-id="@p.Id" class="admin-inline-form">
+                        <button type="submit" class="admin-pill @(p.IsPublished ? "is-on" : "is-off")"
+                                title="@(p.IsPublished ? "Yayından kaldır" : "Yayınla")">
+                            @(p.IsPublished ? "Yayında" : "Gizli")
+                        </button>
+                    </form>
+                </td>
+                <td>@p.UpdatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                <td>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@p.Id" class="admin-inline-form"
+                          onsubmit="return confirm('@p.Title silinsin mi? Bu işlem geri alınamaz.');">
+                        <button type="submit" class="admin-btn admin-btn-danger">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Projects.Count == 0)
+{
+    <p>Henüz proje yok. İlkini eklemek için "Yeni proje" düğmesini kullanın.</p>
+}

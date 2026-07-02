@@ -1,0 +1,41 @@
+@page "/admin/simdi"
+@model Portfolio.Web.Pages.Admin.Now.IndexModel
+@{
+    ViewData["Title"] = "Şu An";
+}
+
+<h1>"Şu An" Durumu</h1>
+<p class="admin-hint">Ana sayfadaki "Şu an" widget'ında görünür. Sitenin yaşadığını gösterir; ara sıra güncelleyin.</p>
+
+@if (TempData["Message"] is string msg)
+{
+    <p class="admin-notice" role="status">@msg</p>
+}
+@if (Model.ErrorMessage is not null)
+{
+    <p class="admin-alert" role="alert">@Model.ErrorMessage</p>
+}
+
+<form method="post" class="admin-form">
+    <div class="admin-field">
+        <label asp-for="StatusText">Durum metni</label>
+        <input asp-for="StatusText" maxlength="300" required
+               placeholder="Örn: Arapça destekli bir yapay zekâ uygulaması geliştiriyorum" />
+    </div>
+
+    <fieldset class="admin-fieldset">
+        <legend>Ruh hali</legend>
+        <label class="admin-radio"><input type="radio" asp-for="Mood" value="Building" /> 🔨 İnşa ediyorum</label>
+        <label class="admin-radio"><input type="radio" asp-for="Mood" value="Learning" /> 📚 Öğreniyorum</label>
+        <label class="admin-radio"><input type="radio" asp-for="Mood" value="Shipping" /> 🚀 Yayına alıyorum</label>
+    </fieldset>
+
+    <div class="admin-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">Güncelle</button>
+    </div>
+
+    @if (Model.LastUpdated is not null)
+    {
+        <p class="admin-hint">Son güncelleme: @Model.LastUpdated.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</p>
+    }
+</form>
