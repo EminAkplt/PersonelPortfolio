@@ -1,0 +1,87 @@
+/* Design token'ları — DESIGN.md'deki "Gece Yarısı Şeması" paleti.
+   Tema: :root açık moddur; sistem tercihi koyuysa ve kullanıcı manuel
+   seçim yapmadıysa koyu değerler devreye girer. data-theme her ikisini de ezer. */
+
+:root {
+    /* Renk — açık mod */
+    --paper: #F4F6F9;
+    --surface: #FFFFFF;
+    --ink: #17212F;
+    --ink-muted: #5A6A7E;
+    --line: rgba(23, 33, 47, 0.14);
+    --blueprint: rgba(57, 98, 143, 0.09);
+    --blueprint-strong: rgba(57, 98, 143, 0.30);
+    --accent: #D4530E;
+    --accent-ink: #FFFFFF;
+    --ok: #1F8A54;
+
+    /* Tipografi */
+    --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", "Cascadia Mono", ui-monospace, monospace;
+
+    --text-xs: 0.8rem;
+    --text-sm: 0.9rem;
+    --text-base: 1rem;
+    --text-lg: 1.15rem;
+    --text-xl: clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+    --text-2xl: clamp(1.7rem, 1.3rem + 2vw, 2.4rem);
+    --text-hero: clamp(2.6rem, 1.8rem + 4.5vw, 5rem);
+
+    /* Boşluk */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-24: 6rem;
+
+    /* Biçim */
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --container: 68rem;
+    --grid-size: 48px;
+
+    /* Hareket */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 160ms;
+    --dur: 400ms;
+
+    color-scheme: light;
+}
+
+/* Sistem koyu tercih ediyorsa ve manuel açık seçilmediyse */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --paper: #0D141F;
+        --surface: #141E2C;
+        --ink: #E8EDF4;
+        --ink-muted: #94A4B8;
+        --line: rgba(232, 237, 244, 0.14);
+        --blueprint: rgba(62, 103, 149, 0.14);
+        --blueprint-strong: rgba(62, 103, 149, 0.45);
+        --accent: #FF7A3D;
+        --accent-ink: #17212F;
+        --ok: #3ECF8E;
+        color-scheme: dark;
+    }
+}
+
+/* Manuel koyu seçim */
+:root[data-theme="dark"] {
+    --paper: #0D141F;
+    --surface: #141E2C;
+    --ink: #E8EDF4;
+    --ink-muted: #94A4B8;
+    --line: rgba(232, 237, 244, 0.14);
+    --blueprint: rgba(62, 103, 149, 0.14);
+    --blueprint-strong: rgba(62, 103, 149, 0.45);
+    --accent: #FF7A3D;
+    --accent-ink: #17212F;
+    --ok: #3ECF8E;
+    color-scheme: dark;
+}
