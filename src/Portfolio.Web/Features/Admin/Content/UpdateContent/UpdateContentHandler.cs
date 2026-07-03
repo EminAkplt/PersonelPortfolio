@@ -10,7 +10,7 @@ public sealed class UpdateContentHandler(AppDbContext db, IAppCache cache)
 {
     public async Task<Result> HandleAsync(IReadOnlyDictionary<string, string> values, CancellationToken ct = default)
     {
-        var unknownKey = values.Keys.FirstOrDefault(k => !SiteContentKeys.All.Contains(k));
+        var unknownKey = values.Keys.FirstOrDefault(k => !SiteContentKeys.Writable.Contains(k));
         if (unknownKey is not null)
             return Result.Fail(Error.Validation("unknown_content_key", $"Bilinmeyen içerik anahtarı: {unknownKey}"));
 

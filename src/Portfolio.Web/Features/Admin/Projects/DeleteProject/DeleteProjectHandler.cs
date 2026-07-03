@@ -1,7 +1,6 @@
 using Portfolio.Web.Common.Caching;
 using Portfolio.Web.Data;
-using Portfolio.Web.Features.Projects.GetProjectBySlug;
-using Portfolio.Web.Features.Projects.GetProjects;
+using Portfolio.Web.Features.Projects;
 
 namespace Portfolio.Web.Features.Admin.Projects.DeleteProject;
 
@@ -16,8 +15,7 @@ public sealed class DeleteProjectHandler(AppDbContext db, IAppCache cache)
         db.Projects.Remove(project);
         await db.SaveChangesAsync(ct);
 
-        cache.Remove(GetProjectsHandler.CacheKey);
-        cache.Remove(GetProjectBySlugHandler.CacheKey(project.Slug));
+        ProjectCache.InvalidateAll(cache, project.Slug);
 
         return Result.Success();
     }

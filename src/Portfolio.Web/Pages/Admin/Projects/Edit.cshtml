@@ -24,27 +24,59 @@
         </div>
     </div>
 
-    <div class="admin-field">
-        <label asp-for="Form.Summary">Özet (tek cümle, insan dilinde)</label>
-        <input asp-for="Form.Summary" required maxlength="400" />
+    <p class="admin-hint">Türkçe alanlar zorunlu. İngilizce alanları boş bırakırsanız, o dilde Türkçe metin gösterilir.</p>
+
+    <div class="admin-field-row">
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.Summary">Özet — Türkçe (tek cümle)</label>
+            <input asp-for="Form.Summary" required maxlength="400" />
+        </div>
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.SummaryEn">Özet — English</label>
+            <input asp-for="Form.SummaryEn" maxlength="400" />
+        </div>
     </div>
 
-    <div class="admin-field">
-        <label asp-for="Form.Problem">Sorun</label>
-        <textarea asp-for="Form.Problem" rows="4" required></textarea>
+    <div class="admin-field-row">
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.Problem">Sorun — Türkçe</label>
+            <textarea asp-for="Form.Problem" rows="4" required></textarea>
+        </div>
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.ProblemEn">Sorun — English</label>
+            <textarea asp-for="Form.ProblemEn" rows="4"></textarea>
+        </div>
     </div>
-    <div class="admin-field">
-        <label asp-for="Form.Approach">Yaklaşım</label>
-        <textarea asp-for="Form.Approach" rows="4" required></textarea>
+    <div class="admin-field-row">
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.Approach">Yaklaşım — Türkçe</label>
+            <textarea asp-for="Form.Approach" rows="4" required></textarea>
+        </div>
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.ApproachEn">Yaklaşım — English</label>
+            <textarea asp-for="Form.ApproachEn" rows="4"></textarea>
+        </div>
     </div>
-    <div class="admin-field">
-        <label asp-for="Form.Outcome">Sonuç</label>
-        <textarea asp-for="Form.Outcome" rows="4" required></textarea>
+    <div class="admin-field-row">
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.Outcome">Sonuç — Türkçe</label>
+            <textarea asp-for="Form.Outcome" rows="4" required></textarea>
+        </div>
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.OutcomeEn">Sonuç — English</label>
+            <textarea asp-for="Form.OutcomeEn" rows="4"></textarea>
+        </div>
     </div>
 
-    <div class="admin-field">
-        <label asp-for="Form.TechStackCsv">Teknolojiler (virgülle ayırın)</label>
-        <input asp-for="Form.TechStackCsv" placeholder="ASP.NET Core, PostgreSQL, Vanilla JS" />
+    <div class="admin-field-row">
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.TitleEn">Başlık — English</label>
+            <input asp-for="Form.TitleEn" maxlength="200" />
+        </div>
+        <div class="admin-field admin-field-grow">
+            <label asp-for="Form.TechStackCsv">Teknolojiler (virgülle ayırın)</label>
+            <input asp-for="Form.TechStackCsv" placeholder="ASP.NET Core, PostgreSQL, Vanilla JS" />
+        </div>
     </div>
 
     <div class="admin-field-row">

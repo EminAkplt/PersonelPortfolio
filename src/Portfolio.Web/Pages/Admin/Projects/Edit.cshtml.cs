@@ -16,6 +16,11 @@ public class EditModel(AppDbContext db, SaveProjectHandler saveHandler) : PageMo
         public string? Problem { get; set; }
         public string? Approach { get; set; }
         public string? Outcome { get; set; }
+        public string? TitleEn { get; set; }
+        public string? SummaryEn { get; set; }
+        public string? ProblemEn { get; set; }
+        public string? ApproachEn { get; set; }
+        public string? OutcomeEn { get; set; }
         public string? TechStackCsv { get; set; }
         public string? CoverImageUrl { get; set; }
         public string? DemoUrl { get; set; }
@@ -51,6 +56,11 @@ public class EditModel(AppDbContext db, SaveProjectHandler saveHandler) : PageMo
             Problem = project.Problem,
             Approach = project.Approach,
             Outcome = project.Outcome,
+            TitleEn = project.TitleEn,
+            SummaryEn = project.SummaryEn,
+            ProblemEn = project.ProblemEn,
+            ApproachEn = project.ApproachEn,
+            OutcomeEn = project.OutcomeEn,
             TechStackCsv = string.Join(", ", project.TechStack),
             CoverImageUrl = project.CoverImageUrl,
             DemoUrl = project.DemoUrl,
@@ -73,6 +83,8 @@ public class EditModel(AppDbContext db, SaveProjectHandler saveHandler) : PageMo
         var request = new SaveProjectRequest(
             id, Form.Slug?.Trim(), Form.Title?.Trim(), Form.Summary?.Trim(),
             Form.Problem?.Trim(), Form.Approach?.Trim(), Form.Outcome?.Trim(),
+            Form.TitleEn?.Trim(), Form.SummaryEn?.Trim(), Form.ProblemEn?.Trim(),
+            Form.ApproachEn?.Trim(), Form.OutcomeEn?.Trim(),
             techStack, Form.CoverImageUrl, Form.DemoUrl, Form.RepoUrl,
             Form.DisplayOrder, Form.IsPublished);
 

@@ -3,8 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.Web.Common.Caching;
 using Portfolio.Web.Data;
 using Portfolio.Web.Domain;
-using Portfolio.Web.Features.Projects.GetProjectBySlug;
-using Portfolio.Web.Features.Projects.GetProjects;
+using Portfolio.Web.Features.Projects;
 
 namespace Portfolio.Web.Features.Admin.Projects.SaveProject;
 
@@ -57,6 +56,11 @@ public sealed class SaveProjectHandler(
         project.Problem = request.Problem!;
         project.Approach = request.Approach!;
         project.Outcome = request.Outcome!;
+        project.TitleEn = NullIfEmpty(request.TitleEn);
+        project.SummaryEn = NullIfEmpty(request.SummaryEn);
+        project.ProblemEn = NullIfEmpty(request.ProblemEn);
+        project.ApproachEn = NullIfEmpty(request.ApproachEn);
+        project.OutcomeEn = NullIfEmpty(request.OutcomeEn);
         project.TechStack = request.TechStack;
         project.CoverImageUrl = NullIfEmpty(request.CoverImageUrl);
         project.DemoUrl = NullIfEmpty(request.DemoUrl);
@@ -67,9 +71,7 @@ public sealed class SaveProjectHandler(
 
         await db.SaveChangesAsync(ct);
 
-        cache.Remove(GetProjectsHandler.CacheKey);
-        cache.Remove(GetProjectBySlugHandler.CacheKey(oldSlug));
-        cache.Remove(GetProjectBySlugHandler.CacheKey(project.Slug));
+        ProjectCache.InvalidateAll(cache, oldSlug, project.Slug);
 
         return Result.Success(project.Id);
     }

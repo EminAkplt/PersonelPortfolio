@@ -13,6 +13,8 @@ public class IndexModel(AppDbContext db, UpdateContentHandler updateHandler) : P
 
     public string? ErrorMessage { get; private set; }
 
+    public string V(string key) => Values.GetValueOrDefault(key, string.Empty);
+
     public async Task OnGetAsync(CancellationToken ct)
     {
         Values = await db.SiteContents

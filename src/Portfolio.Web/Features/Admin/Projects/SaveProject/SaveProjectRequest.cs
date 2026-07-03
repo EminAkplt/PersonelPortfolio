@@ -8,6 +8,12 @@ public sealed record SaveProjectRequest(
     string? Problem,
     string? Approach,
     string? Outcome,
+    // İngilizce çeviriler (opsiyonel)
+    string? TitleEn,
+    string? SummaryEn,
+    string? ProblemEn,
+    string? ApproachEn,
+    string? OutcomeEn,
     string[] TechStack,
     string? CoverImageUrl,
     string? DemoUrl,

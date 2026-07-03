@@ -10,7 +10,14 @@ public class SiteContent
 
 public static class SiteContentKeys
 {
+    // Dilden bağımsız (tek değer)
     public const string HeroName = "hero.name";
+    public const string ContactEmail = "contact.email";
+    public const string SocialLinkedin = "social.linkedin";
+    public const string SocialGithub = "social.github";
+    public const string CvFile = "cv.file";
+
+    // Yerelleştirilebilir (temel = TR, ".en" varyantı EN)
     public const string HeroTagline = "hero.tagline";
     public const string AboutText = "about.text";
     public const string Principle1Title = "principle.1.title";
@@ -19,14 +26,27 @@ public static class SiteContentKeys
     public const string Principle2Text = "principle.2.text";
     public const string Principle3Title = "principle.3.title";
     public const string Principle3Text = "principle.3.text";
-    public const string ContactEmail = "contact.email";
 
-    public static readonly string[] All =
+    /// <summary>EN çevirisi olan anahtarlar — admin bunları çift dilli düzenler.</summary>
+    public static readonly string[] Localizable =
     [
-        HeroName, HeroTagline, AboutText,
+        HeroTagline, AboutText,
         Principle1Title, Principle1Text,
         Principle2Title, Principle2Text,
-        Principle3Title, Principle3Text,
-        ContactEmail
+        Principle3Title, Principle3Text
+    ];
+
+    /// <summary>Tek değerli (dilden bağımsız) anahtarlar.</summary>
+    public static readonly string[] Neutral =
+    [
+        HeroName, ContactEmail, SocialLinkedin, SocialGithub, CvFile
+    ];
+
+    /// <summary>Admin'in yazabileceği tüm geçerli anahtarlar (temel + ".en" varyantları).</summary>
+    public static readonly HashSet<string> Writable =
+    [
+        .. Neutral,
+        .. Localizable,
+        .. Localizable.Select(k => $"{k}.en")
     ];
 }
