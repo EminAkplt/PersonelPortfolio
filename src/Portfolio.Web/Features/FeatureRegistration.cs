@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using Portfolio.Web.Common.Security;
 using Portfolio.Web.Features.Admin.Content.UpdateContent;
 using Portfolio.Web.Features.Admin.Dashboard.GetDashboard;
+using Portfolio.Web.Features.Admin.Links.ManageCv;
 using Portfolio.Web.Features.Admin.Messages.DeleteMessage;
 using Portfolio.Web.Features.Admin.Messages.MarkMessageRead;
 using Portfolio.Web.Features.Admin.Now.UpdateNow;
@@ -42,6 +43,7 @@ public static class FeatureRegistration
         services.AddScoped<UpdateContentHandler>();
         services.AddScoped<UpdateNowHandler>();
         services.AddScoped<GetDashboardHandler>();
+        services.AddScoped<ManageCvHandler>();
 
         services.AddRateLimiter(options =>
         {

@@ -16,3 +16,6 @@ Thumbs.db
 # Yerel gizli ayarlar
 appsettings.*.local.json
 *.pfx
+
+# Admin panelinden yüklenen dosyalar (CV vb.)
+src/Portfolio.Web/wwwroot/files/

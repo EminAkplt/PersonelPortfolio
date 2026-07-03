@@ -101,6 +101,8 @@ h2 { font-size: 1.1rem; margin: 2rem 0 0.75rem; }
 .admin-field-row { display: flex; gap: 1rem; flex-wrap: wrap; }
 .admin-field-row .admin-field { flex: 1; min-width: 12rem; }
 
+.admin-sep { border: none; border-top: 1px solid var(--a-border); margin: 1.5rem 0; }
+
 .admin-field label { font-weight: 600; font-size: 0.875rem; }
 
 .admin-field input:not([type="checkbox"]):not([type="radio"]),

@@ -1,0 +1,65 @@
+@page "/admin/baglantilar"
+@model Portfolio.Web.Pages.Admin.Links.IndexModel
+@{
+    ViewData["Title"] = "Bağlantılar & CV";
+}
+
+<h1>Bağlantılar & CV</h1>
+<p class="admin-hint">Sağ üstteki sosyal butonlar ve CV bağlantısı buradan yönetilir.</p>
+
+@if (TempData["Message"] is string msg)
+{
+    <p class="admin-notice" role="status">@msg</p>
+}
+@if (Model.ErrorMessage is not null)
+{
+    <p class="admin-alert" role="alert">@Model.ErrorMessage</p>
+}
+
+<form method="post" asp-page-handler="Links" class="admin-form">
+    <div class="admin-field">
+        <label asp-for="Email">İletişim e-postası</label>
+        <input asp-for="Email" type="email" placeholder="ornek@site.com" />
+    </div>
+    <div class="admin-field">
+        <label asp-for="Linkedin">LinkedIn adresi</label>
+        <input asp-for="Linkedin" type="url" placeholder="https://www.linkedin.com/in/kullanici" />
+    </div>
+    <div class="admin-field">
+        <label asp-for="Github">GitHub adresi</label>
+        <input asp-for="Github" type="url" placeholder="https://github.com/kullanici" />
+    </div>
+    <div class="admin-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">Bağlantıları kaydet</button>
+    </div>
+    <p class="admin-hint">Boş bıraktığınız bağlantının butonu sitede görünmez.</p>
+</form>
+
+<hr class="admin-sep" />
+
+<h2>CV (PDF)</h2>
+@if (!string.IsNullOrEmpty(Model.CvFile))
+{
+    <p class="admin-hint">
+        Yüklü CV:
+        <a href="@Model.CvFile" target="_blank" rel="noopener" class="mono">@Model.CvFile</a>
+    </p>
+    <form method="post" asp-page-handler="RemoveCv" class="admin-inline-form"
+          onsubmit="return confirm('CV kaldırılsın mı?');">
+        <button type="submit" class="admin-btn admin-btn-danger">CV'yi kaldır</button>
+    </form>
+}
+else
+{
+    <p class="admin-hint">Henüz CV yüklenmemiş. Yüklerseniz sağ üstte "CV" butonu görünür.</p>
+}
+
+<form method="post" asp-page-handler="Cv" enctype="multipart/form-data" class="admin-form" style="margin-top:1rem;">
+    <div class="admin-field">
+        <label asp-for="Upload">Yeni CV yükle (yalnızca PDF, en fazla 10 MB)</label>
+        <input asp-for="Upload" type="file" accept="application/pdf,.pdf" required />
+    </div>
+    <div class="admin-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">CV'yi yükle</button>
+    </div>
+</form>
