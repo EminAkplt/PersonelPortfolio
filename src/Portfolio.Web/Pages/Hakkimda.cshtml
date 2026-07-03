@@ -1,0 +1,52 @@
+@page "/hakkimda"
+@using Portfolio.Web.Domain
+@model HakkimdaModel
+@{
+    ViewData["Title"] = $"{T("about.title")} — Emin";
+    ViewData["Description"] = Model.Texts.Localized(SiteContentKeys.AboutText);
+    ViewData["Canonical"] = "/hakkimda";
+}
+
+<div class="page container">
+    <header class="page-head reveal">
+        <span class="section-no mono" aria-hidden="true">02</span>
+        <h1>@T("about.title")</h1>
+    </header>
+
+    <div class="about-block reveal">
+        <p class="about-text">@Model.Texts.Localized(SiteContentKeys.AboutText)</p>
+    </div>
+
+    @if (Model.Now is not null)
+    {
+        <div class="now-widget reveal">
+            <h2 class="now-label mono">
+                <span class="now-dot" aria-hidden="true"></span>@T("now.label")
+            </h2>
+            <p class="now-text">
+                @Model.Now.StatusText
+                <span aria-hidden="true">@HakkimdaModel.MoodEmoji(Model.Now.Mood)</span>
+            </p>
+            <p class="now-updated mono">@T("now.updated"): <time datetime="@Model.Now.UpdatedAt.ToString("o")">@Model.Now.UpdatedAt.ToLocalTime().ToString("dd.MM.yyyy")</time></p>
+        </div>
+    }
+
+    <section class="principles-section reveal" aria-labelledby="ilke-baslik">
+        <div class="section-head">
+            <span class="section-no mono" aria-hidden="true">·</span>
+            <h2 id="ilke-baslik">@T("principles.title")</h2>
+            <p class="section-sub">@T("principles.sub")</p>
+        </div>
+
+        <div class="principles">
+            @for (var i = 1; i <= 3; i++)
+            {
+                <article class="principle-card">
+                    <span class="principle-no mono" aria-hidden="true">@($"{i:00}")</span>
+                    <h3>@Model.Texts.Localized($"principle.{i}.title")</h3>
+                    <p>@Model.Texts.Localized($"principle.{i}.text")</p>
+                </article>
+            }
+        </div>
+    </section>
+</div>

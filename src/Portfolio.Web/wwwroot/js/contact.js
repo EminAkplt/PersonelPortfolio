@@ -1,4 +1,4 @@
-// İletişim formu: sayfa yenilenmeden gönderir; hata mesajları insan dilinde.
+// İletişim formu: sayfa yenilenmeden gönderir; mesajlar dile göre data-* ile gelir.
 
 export function initContact() {
     const form = document.getElementById("iletisimFormu");
@@ -6,6 +6,8 @@ export function initContact() {
 
     const status = form.querySelector(".form-status");
     const button = form.querySelector('button[type="submit"]');
+    const sendingText = form.dataset.sending || "Gönderiliyor…";
+    const successText = form.dataset.success || "Mesajın ulaştı, 24 saat içinde dönerim.";
 
     form.addEventListener("submit", async event => {
         event.preventDefault();
@@ -14,7 +16,7 @@ export function initContact() {
 
         button.disabled = true;
         status.className = "form-status";
-        status.textContent = "Gönderiliyor…";
+        status.textContent = sendingText;
 
         try {
             const data = Object.fromEntries(new FormData(form));
@@ -28,15 +30,15 @@ export function initContact() {
 
             if (response.ok) {
                 status.classList.add("is-ok");
-                status.textContent = body?.message ?? "Mesajın ulaştı, 24 saat içinde dönerim.";
+                status.textContent = body?.message ?? successText;
                 form.reset();
             } else {
                 status.classList.add("is-error");
-                status.textContent = body?.detail ?? body?.message ?? "Bir şeyler ters gitti. Dilerseniz doğrudan e-posta gönderin.";
+                status.textContent = body?.detail ?? body?.message ?? "Bir şeyler ters gitti.";
             }
         } catch {
             status.classList.add("is-error");
-            status.textContent = "Sunucuya ulaşılamadı. Dilerseniz doğrudan e-posta gönderin.";
+            status.textContent = "Sunucuya ulaşılamadı.";
         } finally {
             button.disabled = false;
         }

@@ -1,0 +1,57 @@
+@page "/iletisim"
+@model IletisimModel
+@{
+    ViewData["Title"] = $"{T("contact.title")} — Emin";
+    ViewData["Description"] = T("contact.intro");
+    ViewData["Canonical"] = "/iletisim";
+}
+
+<div class="page container">
+    <header class="page-head reveal">
+        <span class="section-no mono" aria-hidden="true">03</span>
+        <h1>@T("contact.title")</h1>
+        <p class="section-sub">@T("contact.intro")</p>
+    </header>
+
+    <div class="contact-wrap reveal">
+        <form id="iletisimFormu" class="contact-form" action="/api/contact" method="post" novalidate
+              data-sending="@T("contact.sending")" data-success="@T("contact.success")">
+            <div class="form-field">
+                <label for="ad">@T("contact.name")</label>
+                <input id="ad" name="name" type="text" autocomplete="name" required minlength="2" maxlength="150" />
+            </div>
+            <div class="form-field">
+                <label for="eposta">@T("contact.email")</label>
+                <input id="eposta" name="email" type="email" autocomplete="email" required maxlength="320" />
+            </div>
+            <div class="form-field">
+                <label for="mesaj">@T("contact.message")</label>
+                <textarea id="mesaj" name="message" rows="6" required minlength="10" maxlength="4000"></textarea>
+            </div>
+
+            @* Honeypot: insanlar görmez, botlar doldurur. *@
+            <div class="hp-field" aria-hidden="true">
+                <label for="website">Web siteniz</label>
+                <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <button type="submit" class="btn-primary">@T("contact.send")</button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+            @if (!string.IsNullOrEmpty(Model.Email))
+            {
+                <noscript>
+                    <p class="form-status">@T("contact.noscript")
+                        <a href="mailto:@Model.Email">@Model.Email</a></p>
+                </noscript>
+            }
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.Email))
+        {
+            <p class="contact-direct">
+                @T("contact.direct")
+                <a class="mono" href="mailto:@Model.Email">@Model.Email</a>
+            </p>
+        }
+    </div>
+</div>

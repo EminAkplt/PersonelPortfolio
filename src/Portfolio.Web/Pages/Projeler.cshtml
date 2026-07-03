@@ -1,0 +1,57 @@
+@page "/projeler"
+@using Portfolio.Web.Common
+@model ProjelerModel
+@{
+    ViewData["Title"] = $"{T("projects.title")} — Emin";
+    ViewData["Description"] = T("projects.sub");
+    ViewData["Canonical"] = "/projeler";
+}
+
+<div class="page container">
+    <header class="page-head reveal">
+        <span class="section-no mono" aria-hidden="true">01</span>
+        <h1>@T("projects.title")</h1>
+        <p class="section-sub">@T("projects.sub")</p>
+    </header>
+
+    @if (Model.Projects.Count == 0)
+    {
+        <p class="page-empty">@T("projects.empty")</p>
+    }
+    else
+    {
+        <div class="project-list">
+            @foreach (var (project, index) in Model.Projects.Select((p, i) => (p, i)))
+            {
+                <article class="project-card reveal" aria-labelledby="proje-@project.Slug">
+                    <header class="project-card-head">
+                        <span class="project-no mono" aria-hidden="true">@((index + 1).ToString("00"))</span>
+                        <h2 id="proje-@project.Slug">
+                            <a class="project-link" href="/proje/@project.Slug">@project.Title</a>
+                        </h2>
+                    </header>
+
+                    <p class="project-summary">@project.Summary</p>
+
+                    <ul class="tech-list" aria-label="@T("projects.tech")">
+                        @foreach (var (tech, ti) in project.TechStack.Select((t, i) => (t, i)))
+                        {
+                            var tipId = $"tip-{project.Slug}-{ti}";
+                            <li>
+                                <span class="tech-badge mono" tabindex="0" aria-describedby="@tipId">
+                                    @tech
+                                    <span class="tip" role="tooltip" id="@tipId">@TechGlossary.Describe(tech)</span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+
+                    <a class="project-more" href="/proje/@project.Slug">
+                        @T("projects.more")<span aria-hidden="true"> →</span>
+                        <span class="visually-hidden">: @project.Title</span>
+                    </a>
+                </article>
+            }
+        </div>
+    }
+</div>

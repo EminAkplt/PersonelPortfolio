@@ -16,6 +16,7 @@
         ["description"] = Model.Project.Summary,
         ["dateModified"] = Model.Project.UpdatedAt.ToString("yyyy-MM-dd"),
         ["keywords"] = string.Join(", ", Model.Project.TechStack),
+        ["inLanguage"] = Culture,
         ["url"] = $"{Request.Scheme}://{Request.Host}/proje/{Model.Project.Slug}"
     });
 }
@@ -25,15 +26,15 @@
 }
 
 <article class="project-detail container">
-    <nav class="crumbs mono" aria-label="Sayfa yolu">
-        <a href="/">ana sayfa</a><span aria-hidden="true"> / </span><a href="/#projeler">projeler</a><span aria-hidden="true"> / </span><span aria-current="page">@Model.Project.Slug</span>
+    <nav class="crumbs mono" aria-label="@T("home")">
+        <a href="/">@T("detail.crumb.home")</a><span aria-hidden="true"> / </span><a href="/projeler">@T("detail.crumb.projects")</a><span aria-hidden="true"> / </span><span aria-current="page">@Model.Project.Slug</span>
     </nav>
 
     <header class="project-detail-head">
         <h1>@Model.Project.Title</h1>
         <p class="project-detail-summary">@Model.Project.Summary</p>
 
-        <ul class="tech-list" aria-label="Kullanılan teknolojiler">
+        <ul class="tech-list" aria-label="@T("projects.tech")">
             @foreach (var (tech, ti) in Model.Project.TechStack.Select((t, i) => (t, i)))
             {
                 var tipId = $"tip-detay-{ti}";
@@ -49,21 +50,21 @@
 
     @if (Model.Project.CoverImageUrl is not null)
     {
-        <img class="project-cover" src="@Model.Project.CoverImageUrl" alt="@Model.Project.Title ekran görüntüsü"
+        <img class="project-cover" src="@Model.Project.CoverImageUrl" alt="@Model.Project.Title @T("detail.cover.alt")"
              loading="lazy" width="1200" height="675" />
     }
 
     <div class="story">
         <section class="story-block reveal" aria-labelledby="sorun-b">
-            <h2 id="sorun-b"><span class="story-no mono" aria-hidden="true">01</span> Sorun</h2>
+            <h2 id="sorun-b"><span class="story-no mono" aria-hidden="true">01</span> @T("detail.problem")</h2>
             <p>@Model.Project.Problem</p>
         </section>
         <section class="story-block reveal" aria-labelledby="yaklasim-b">
-            <h2 id="yaklasim-b"><span class="story-no mono" aria-hidden="true">02</span> Yaklaşım</h2>
+            <h2 id="yaklasim-b"><span class="story-no mono" aria-hidden="true">02</span> @T("detail.approach")</h2>
             <p>@Model.Project.Approach</p>
         </section>
         <section class="story-block reveal" aria-labelledby="sonuc-b">
-            <h2 id="sonuc-b"><span class="story-no mono" aria-hidden="true">03</span> Sonuç</h2>
+            <h2 id="sonuc-b"><span class="story-no mono" aria-hidden="true">03</span> @T("detail.outcome")</h2>
             <p>@Model.Project.Outcome</p>
         </section>
     </div>
@@ -73,14 +74,14 @@
         <div class="project-links">
             @if (Model.Project.DemoUrl is not null)
             {
-                <a class="btn-primary" href="@Model.Project.DemoUrl" rel="noopener">Canlı demoyu gör</a>
+                <a class="btn-primary" href="@Model.Project.DemoUrl" rel="noopener">@T("detail.demo")</a>
             }
             @if (Model.Project.RepoUrl is not null)
             {
-                <a class="btn-ghost mono" href="@Model.Project.RepoUrl" rel="noopener">Kaynak kodu →</a>
+                <a class="btn-ghost mono" href="@Model.Project.RepoUrl" rel="noopener">@T("detail.repo") →</a>
             }
         </div>
     }
 
-    <p class="project-back"><a href="/#projeler">← Tüm projelere dön</a></p>
+    <p class="project-back"><a href="/projeler">← @T("detail.back")</a></p>
 </article>
