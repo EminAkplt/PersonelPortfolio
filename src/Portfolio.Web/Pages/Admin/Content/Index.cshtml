@@ -35,6 +35,18 @@
 
     <div class="admin-field-row">
         <div class="admin-field admin-field-grow">
+            <label for="console">Ana sayfa konsolu (kısa CV) — Türkçe</label>
+            <textarea id="console" name="Values[console.text]" rows="8" class="admin-mono">@Model.V("console.text")</textarea>
+        </div>
+        <div class="admin-field admin-field-grow">
+            <label for="consoleen">Ana sayfa konsolu (kısa CV) — English</label>
+            <textarea id="consoleen" name="Values[console.text.en]" rows="8" class="admin-mono">@Model.V("console.text.en")</textarea>
+        </div>
+    </div>
+    <p class="admin-hint">Satır satır yazın; ana sayfada sağdaki terminal ekranında olduğu gibi görünür. "#" ile başlayan satırlar yorum (soluk) gösterilir.</p>
+
+    <div class="admin-field-row">
+        <div class="admin-field admin-field-grow">
             <label for="about">Hakkımda — Türkçe</label>
             <textarea id="about" name="Values[about.text]" rows="6">@Model.V("about.text")</textarea>
         </div>

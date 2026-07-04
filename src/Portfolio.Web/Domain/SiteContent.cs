@@ -19,6 +19,7 @@ public static class SiteContentKeys
 
     // Yerelleştirilebilir (temel = TR, ".en" varyantı EN)
     public const string HeroTagline = "hero.tagline";
+    public const string ConsoleText = "console.text";
     public const string AboutText = "about.text";
     public const string Principle1Title = "principle.1.title";
     public const string Principle1Text = "principle.1.text";
@@ -30,7 +31,7 @@ public static class SiteContentKeys
     /// <summary>EN çevirisi olan anahtarlar — admin bunları çift dilli düzenler.</summary>
     public static readonly string[] Localizable =
     [
-        HeroTagline, AboutText,
+        HeroTagline, ConsoleText, AboutText,
         Principle1Title, Principle1Text,
         Principle2Title, Principle2Text,
         Principle3Title, Principle3Text

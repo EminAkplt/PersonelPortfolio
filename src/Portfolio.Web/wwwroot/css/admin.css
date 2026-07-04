@@ -105,6 +105,8 @@ h2 { font-size: 1.1rem; margin: 2rem 0 0.75rem; }
 
 .admin-field label { font-weight: 600; font-size: 0.875rem; }
 
+.admin-mono { font-family: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace; font-size: 0.85rem; line-height: 1.5; }
+
 .admin-field input:not([type="checkbox"]):not([type="radio"]),
 .admin-field textarea {
     font: inherit;

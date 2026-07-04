@@ -4,21 +4,18 @@
 @{
     var heroName = Model.Texts.Localized(SiteContentKeys.HeroName, "Emin");
     var tagline = Model.Texts.Localized(SiteContentKeys.HeroTagline);
+    var consoleText = Model.Texts.Localized(SiteContentKeys.ConsoleText);
+    var consoleLines = consoleText.Replace("\r\n", "\n").Split('\n');
+    var promptUser = (heroName.Length > 0 ? heroName.ToLowerInvariant() : "emin") + "@portfolio";
+
     ViewData["Title"] = $"{heroName} — {(Culture == "en" ? "Software Engineer" : "Yazılım Mühendisi")}";
     ViewData["Description"] = tagline;
     ViewData["Canonical"] = "/";
     ViewData["IsHub"] = true;
-
-    var menu = new (string Href, string Label, string Desc)[]
-    {
-        ("/projeler", T("nav.projects"), T("hub.projects.desc")),
-        ("/hakkimda", T("nav.about"), T("hub.about.desc")),
-        ("/iletisim", T("nav.contact"), T("hub.contact.desc")),
-    };
 }
 
 <section class="hub">
-    <div class="hub-inner">
+    <div class="hub-grid">
         <div class="hub-intro">
             <p class="hub-eyebrow mono">@T("hub.eyebrow")</p>
             <h1 class="hub-name">@heroName<span class="hub-cursor" aria-hidden="true">_</span></h1>
@@ -30,18 +27,23 @@
             </span>
         </div>
 
-        <nav class="hub-menu" aria-label="@T("hub.enter")">
-            @foreach (var (item, index) in menu.Select((m, i) => (m, i)))
-            {
-                <a class="hub-link" href="@item.Href">
-                    <span class="hub-link-no mono" aria-hidden="true">@($"{index + 1:00}")</span>
-                    <span class="hub-link-body">
-                        <span class="hub-link-label">@item.Label</span>
-                        <span class="hub-link-desc">@item.Desc</span>
-                    </span>
-                    <span class="hub-link-arrow mono" aria-hidden="true">→</span>
-                </a>
-            }
-        </nav>
+        <div class="console" aria-label="@(Culture == "en" ? "Short CV" : "Kısa özgeçmiş")">
+            <div class="console-bar" aria-hidden="true">
+                <span class="console-dots"><i></i><i></i><i></i></span>
+                <span class="console-title mono">@promptUser: ~</span>
+            </div>
+            <div class="console-body mono">
+                <p class="console-cmd"><span class="console-prompt">$</span> cat ozgecmis.txt</p>
+                <div class="console-out">
+                    @foreach (var line in consoleLines)
+                    {
+                        var trimmed = line.TrimStart();
+                        var isComment = trimmed.StartsWith('#');
+                        <span class="console-line @(isComment ? "is-comment" : "")">@(line.Length == 0 ? " " : line)</span>
+                    }
+                </div>
+                <p class="console-cmd"><span class="console-prompt">$</span> <span class="console-caret" aria-hidden="true">▋</span></p>
+            </div>
+        </div>
     </div>
 </section>

@@ -68,14 +68,11 @@
         <div class="container site-header-inner">
             <a class="brand mono" href="/" aria-label="@T("home")">e/</a>
 
-            @if (!isHub)
-            {
-                <nav class="site-nav" aria-label="@T("home")">
-                    <a href="/projeler">@T("nav.projects")</a>
-                    <a href="/hakkimda">@T("nav.about")</a>
-                    <a href="/iletisim">@T("nav.contact")</a>
-                </nav>
-            }
+            <nav class="site-nav" aria-label="@T("home")">
+                <a href="/projeler">@T("nav.projects")</a>
+                <a href="/hakkimda">@T("nav.about")</a>
+                <a href="/iletisim">@T("nav.contact")</a>
+            </nav>
 
             <div class="header-actions">
                 <div class="social-cluster">
@@ -97,12 +94,21 @@
                             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
                         </a>
                     }
+                    @{
+                        var cvIcon = "<svg aria-hidden=\"true\" width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3v12m0 0 4-4m-4 4-4-4\"/><path d=\"M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2\"/></svg>";
+                    }
                     @if (!string.IsNullOrEmpty(cvFile))
                     {
                         <a class="cv-btn mono" href="@cvFile" target="_blank" rel="noopener" aria-label="@T("cv.aria")" download>
-                            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-                            @T("cv")
+                            @Html.Raw(cvIcon)@T("cv")
                         </a>
+                    }
+                    else
+                    {
+                        <span class="cv-btn cv-btn-empty mono" aria-disabled="true"
+                              title="@(culture == "en" ? "CV will be added soon" : "CV yakında eklenecek")">
+                            @Html.Raw(cvIcon)@T("cv")
+                        </span>
                     }
                 </div>
 
