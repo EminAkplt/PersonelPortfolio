@@ -23,7 +23,7 @@ Tasarım kararları için: [DESIGN.md](DESIGN.md)
 
 | Katman | Seçim |
 |---|---|
-| Backend | .NET 10, ASP.NET Core (Razor Pages + Minimal API) |
+| Backend | .NET 8 (LTS), ASP.NET Core (Razor Pages + Minimal API) |
 | Mimari | Vertical slice — her feature kendi klasöründe plain handler (MediatR yok) |
 | Hata yönetimi | `Result<T>` pattern (exception'la akış kontrolü yok) |
 | Veritabanı | PostgreSQL 16+ (EF Core, code-first migrations) |
@@ -33,7 +33,7 @@ Tasarım kararları için: [DESIGN.md](DESIGN.md)
 
 ## Lokal kurulum
 
-Gereksinimler: [.NET 10 SDK](https://dotnet.microsoft.com/download), lokal PostgreSQL 16+.
+Gereksinimler: [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0), lokal PostgreSQL 16+. (Visual Studio ile açacaksan 2022 17.8+ yeterli.)
 
 1. **Veritabanı ve kullanıcıyı oluşturun** (bir kere):
 

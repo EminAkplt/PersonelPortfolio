@@ -15,6 +15,6 @@ public sealed class IpHasher(IConfiguration configuration)
     {
         var input = string.IsNullOrWhiteSpace(ipAddress) ? "unknown" : ipAddress;
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(_salt + input));
-        return Convert.ToHexStringLower(bytes);
+        return Convert.ToHexString(bytes).ToLowerInvariant();
     }
 }
