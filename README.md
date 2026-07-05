@@ -44,7 +44,7 @@ Gereksinimler: [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0), l
    ```
 
 2. **Bağlantı cümlesini kontrol edin** — varsayılan
-   [appsettings.json](src/Portfolio.Web/appsettings.json) şu şekildedir;
+   [appsettings.json](appsettings.json) şu şekildedir;
    kendi kurulumunuza göre düzenleyin veya ortam değişkeniyle ezin:
 
    ```
@@ -56,7 +56,7 @@ Gereksinimler: [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0), l
 3. **Çalıştırın:**
 
    ```bash
-   dotnet run --project src/Portfolio.Web
+   dotnet run
    ```
 
    İlk açılışta migration'lar otomatik uygulanır ve örnek içerik seed edilir.
@@ -69,7 +69,7 @@ Gereksinimler: [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0), l
 - **Üretimde** hash zorunludur — hash'i üretin ve ortam değişkeni olarak verin:
 
   ```bash
-  dotnet run --project src/Portfolio.Web -- hash-password "güçlü-şifreniz"
+  dotnet run -- hash-password "güçlü-şifreniz"
   # çıktıyı kopyalayın:
   # Admin__PasswordHash=100000.xxxx.yyyy
   # Admin__Username=admin        (isteğe bağlı, varsayılan: admin)
@@ -82,7 +82,7 @@ son 30 gün görüntülenme grafiği.
 ## Deploy (Docker'sız, klasik yayınlama)
 
 ```bash
-dotnet publish src/Portfolio.Web -c Release -o publish
+dotnet publish -c Release -o publish
 ```
 
 `publish/` klasörünü sunucuya kopyalayıp `Portfolio.Web.dll`'i çalıştırın.
@@ -116,7 +116,7 @@ proxy'nin IP'sini görür.
 ## Proje yapısı
 
 ```
-src/Portfolio.Web/
+Portfolio.Web/  (repo kökü)
 ├── Common/            # Result pattern, cache soyutlaması, güvenlik yardımcıları
 ├── Data/              # DbContext, migrations, seed
 ├── Domain/            # Entity'ler
